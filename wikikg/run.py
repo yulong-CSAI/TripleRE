@@ -27,7 +27,7 @@ import time
 from tensorboardX import SummaryWriter
 import os.path as osp
 
-os.environ["CUDA_VISIBLE_DEVICES"] = '3'
+os.environ["CUDA_VISIBLE_DEVICES"] = '0'
 
 def parse_args(args=None):
     parser = argparse.ArgumentParser(
@@ -167,7 +167,6 @@ def setup_seed(seed):
     torch.backends.cudnn.deterministic = True
 
 def main(args):
-    setup_seed(3)
     if (not args.do_train) and (not args.do_valid) and (not args.do_test) and (not args.evaluate_train):
         raise ValueError('one of train/val/test mode must be choosed.')
 
