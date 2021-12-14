@@ -58,21 +58,7 @@ class KGEModel(nn.Module):
             a=-self.embedding_range.item(),
             b=self.embedding_range.item()
         )
-        '''
-        self.atten_node = nn.Parameter(torch.zeros(self.entity_dim, self.entity_dim))
-        nn.init.uniform_(
-            tensor=self.atten_node,
-            a=-self.embedding_range.item(),
-            b=self.embedding_range.item()
-        )
 
-        self.atten_rela = nn.Parameter(torch.zeros(self.entity_dim, self.entity_dim))
-        nn.init.uniform_(
-            tensor=self.atten_rela,
-            a=-self.embedding_range.item(),
-            b=self.embedding_range.item()
-        )
-        '''
         if model_name in ['TransH']:
             self.norm_vector = nn.Parameter(torch.zeros(nrelation, self.relation_dim))
             nn.init.uniform_(
@@ -293,15 +279,7 @@ class KGEModel(nn.Module):
 
     def PairRE(self, head, relation, tail, mode):
         re_head, re_tail = torch.chunk(relation, 2, dim=2)
-        '''
-        head_atten = torch.matmul(head, self.atten_node)
-        re_head_atten = torch.matmul(re_head, self.atten_rela)
-        head_atten = F.softmax((head_atten*3 + re_head_atten), dim=2)
-
-        tail_atten = torch.matmul(tail, self.atten_node)
-        re_tail_atten = torch.matmul(re_tail, self.atten_rela)
-        tail_atten = F.softmax((tail_atten*3 + re_tail_atten), dim=2)
-        '''
+        
         head = F.normalize(head, 2, -1)
         tail = F.normalize(tail, 2, -1)
 
@@ -311,8 +289,10 @@ class KGEModel(nn.Module):
 
     def TripleRE(self, head, relation, tail, mode):
         re_head, re_mid, re_tail = torch.chunk(relation, 3, dim=2)
+        
         head = F.normalize(head, 2, -1)
         tail = F.normalize(tail, 2, -1)
+        
         score = head * re_head - tail * re_tail + re_mid
         score = self.gamma.item() - torch.norm(score, p=1, dim=2)
         return score
