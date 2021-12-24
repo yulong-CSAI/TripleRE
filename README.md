@@ -3,6 +3,9 @@
 
 This implementation of TripleRE for [**Open Graph Benchmak**](https://arxiv.org/abs/2005.00687) datasets (ogbl-wikikg) is based on [**OGB**](https://github.com/snap-stanford/ogb). Thanks for their contributions.
 
+# Result
+![image](https://user-images.githubusercontent.com/33060795/147315026-4f4aea29-37ea-49bf-8154-fa7cbaec0b4a.png)
+
 
 ## Setup
 
